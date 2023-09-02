@@ -37,50 +37,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+    $qry = mysqli_query($con,$sql);
 
-    // Conexão com o banco de dados
-    $conn = new mysqli($servidor, $usuario, $senha, $bd);
-
-    // Verifica a conexão
-    if ($conn->connect_error) {
-        die("Conexão falhou: " . $conn->connect_error);
-    }
+ 
 
     // Consulta para inserir o paciente
     $sql = "INSERT INTO pacientes (nomepaciente	, cpfpaciente, rgpaciente, enderecopaciente, datanascimento, telefone, email, numcartaosus, equipe, nomemae, nomepai, raca, sexo, tiposanguineo, nacionalidade,	statuspac, doencapreexis, detalhesdoenca) 
             VALUES ('$nomepaciente, $cpfpaciente, $rgpaciente, $enderecopaciente, $datanascimento, $telefone, $email, $numcartaosus, $equipe, $nomemae, $nomepai, $raca, $sexo, $tiposanguineo, $nacionalidade, $statuspac, $doencapreexis, $detalhesdoenca')";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Paciente inserido com sucesso!";
-    } else {
-        echo "Erro ao inserir o paciente: " . $conn->error;
-    }
+if ($qry) {
+    header ('location: listarpacientes.php');
+} else {
+    echo "<h1>Registro não cadastrado</h1>";
+}
 
-    // Fecha a conexão com o banco de dados
-    $conn->close();
+    
+
 }
 ?>
 
-<form method="post" action=">
+<form method="post" action="<?php echo $_SERVER["PHP_SELF"] . "?id=" . $id; ?>">
 
     <label for="nomepaciente">Nome do Paciente:</label>
     <input type="text" id="nomepaciente" name="nomepaciente" required><br><br>
     <label for="cpfpaciente">CPF do Paciente:</label>
-    <input type="number" id="cpfpaciente" name="cfpaciente" required><br><br>
+    <input type="text" id="cpfpaciente" name="cfpaciente" required><br><br>
     <label for="rgpaciente">RG do Paciente:</label>
-    <input type="number" id="rgpaciente" name="rgpaciente" required><br><br>
+    <input type="text" id="rgpaciente" name="rgpaciente" required><br><br>
     <label for="enderecopaciente">Endereço do Paciente:</label>
     <input type="text" id="enderecopaciente" name="enderecopaciente" required><br><br>
     <label for="datanascimento">Data de Nascimento:</label>
     <input type="date" id="datanascimento" name="datanascimento" required><br><br>
     <label for="telefone">Telefone:</label>
-    <input type="number" id="telefone" name="telefone" required><br><br>
+    <input type="text" id="telefone" name="telefone" required><br><br>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br><br>
     <label for="numcartaosus">Número do Cartão do SUS:</label>
-    <input type="number" id="numcartaosus" name="numcartaosus" required><br><br>
+    <input type="text" id="numcartaosus" name="numcartaosus" required><br><br>
     <label for="equipe">Equipe:</label>
-    <input type="text" id="equipe" name="equipe" required><br><br>
+    <input type="text" tid="equipe" name="equipe" required><br><br>
     <label for="nomemae">Nome da Mãe:</label>
     <input type="text" id="nomemae" name="nomemae" required><br><br>
     <label for="nomepai">Nome do Pai:</label>
