@@ -13,18 +13,21 @@ if (!$con){
     echo "<h1>Erro na conexão</h1>";
 }
 
-$sql = "SELECT * FROM  ";
+$sql = "SELECT * FROM funcionarios " ; {
+    if "medicos" WHERE 
+}
+
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>Clínica da Família Augusta King</title>
 </head>
 <body>
     <header>
-        <h1>Bem-vindo ao Dashboard</h1>
+        <h1>Bem-vindo a Clínica da Família Augusta King</h1>
     </header>
     <nav>
         <ul>
