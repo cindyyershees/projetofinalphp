@@ -2,66 +2,65 @@
 <html>
 <head>
     <title>Inserir Paciente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
 
-<h2>Inserir Paciente</h2>
+<div class="container">
+    <h2 class="mt-5">Inserir Paciente</h2>
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Configurações do banco de dados
-    $servidor = "localhost";
-    $usuario = "root";
-    $senha = " ";
-    $bd = "sisgeresaude";
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $servidor = "localhost";
+        $usuario = "root";
+        $senha = ""; 
+        $bd = "sisgeresaude";
 
-    // Dados do formulário
-    $nomepaciente = $_POST["nome"];
-    $cpfpaciente = $_POST["cpfpaciente"];
-    $rgpaciente = $_POST["rgpaciente"];
-    $enderecopaciente = $_POST["enderecopaciente"];
-    $datanascimento = $_POST["datanascimento"];
-    $telefone = $_POST["telefone"];
-    $email = $_POST["email"];
-    $numcartaosus = $_POST["numcartaosus"];
-    $equipe = $_POST["equipe"];
-    $nomemae = $_POST["nomemae"];
-    $nomepai = $_POST["nomepai"];
-    $raca = $_POST["raca"];
-    $sexo = $_POST["sexo"];
-    $tiposanguineo = $_POST["tiposanguineo"];
-    $nacionalidade = $_POST["nacionalidade"];
-    $statuspac = $_POST["statuspac"];
-    $doencapreexis = $_POST["doencapreexis"];
-    $detalhesdoenca = $_POST["detalhesdoenca"];
+        // Conexão com o banco de dados
+        $con = mysqli_connect($servidor, $usuario, $senha, $bd);
 
+        if (!$con) {
+            die("Conexão falhou: " . mysqli_connect_error());
+        }
 
+        $nomepaciente = $_POST["nomepaciente"];
+        $cpfpaciente = $_POST["cpfpaciente"];
+        $rgpaciente = $_POST["rgpaciente"];
+        $enderecopaciente = $_POST["enderecopaciente"];
+        $datanascimento = $_POST["datanascimento"];
+        $telefone = $_POST["telefone"];
+        $email = $_POST["email"];
+        $numcartaosus = $_POST["numcartaosus"];
+        $equipe = $_POST["equipe"];
+        $nomemae = $_POST["nomemae"];
+        $nomepai = $_POST["nomepai"];
+        $raca = $_POST["raca"];
+        $sexo = $_POST["sexo"];
+        $tiposanguineo = $_POST["tiposanguineo"];
+        $nacionalidade = $_POST["nacionalidade"];
+        $statuspac = $_POST["statuspac"];
+        $doencapreexis = $_POST["doencapreexis"];
+        $detalhesdoenca = $_POST["detalhesdoenca"];
 
-    $qry = mysqli_query($con,$sql);
+        // Consulta para inserir o paciente
+        $sql = "INSERT INTO pacientes (nomepaciente, cpfpaciente, rgpaciente, enderecopaciente, datanascimento, telefone, email, numcartaosus, equipe, nomemae, nomepai, raca, sexo, tiposanguineo, nacionalidade, statuspac, doencapreexis, detalhesdoenca) 
+                VALUES ('$nomepaciente', '$cpfpaciente', '$rgpaciente', '$enderecopaciente', '$datanascimento', '$telefone', '$email', '$numcartaosus', '$equipe', '$nomemae', '$nomepai', '$raca', '$sexo', '$tiposanguineo', '$nacionalidade', '$statuspac', '$doencapreexis', '$detalhesdoenca')";
 
- 
+        if (mysqli_query($con, $sql)) {
+            echo "<div class='alert alert-success mt-3' role='alert'>Registro cadastrado com sucesso!</div>";
+        } else {
+            echo "<div class='alert alert-danger mt-3' role='alert'>Erro ao cadastrar o registro: " . mysqli_error($con) . "</div>";
+        }
 
-    // Consulta para inserir o paciente
-    $sql = "INSERT INTO pacientes (nomepaciente	, cpfpaciente, rgpaciente, enderecopaciente, datanascimento, telefone, email, numcartaosus, equipe, nomemae, nomepai, raca, sexo, tiposanguineo, nacionalidade,	statuspac, doencapreexis, detalhesdoenca) 
-            VALUES ('$nomepaciente, $cpfpaciente, $rgpaciente, $enderecopaciente, $datanascimento, $telefone, $email, $numcartaosus, $equipe, $nomemae, $nomepai, $raca, $sexo, $tiposanguineo, $nacionalidade, $statuspac, $doencapreexis, $detalhesdoenca')";
+        mysqli_close($con);
+    }
+    ?>
 
-if ($qry) {
-    header ('location: listarpacientes.php');
-} else {
-    echo "<h1>Registro não cadastrado</h1>";
-}
-
-    
-
-}
-?>
-
-<form method="post" action="<?php echo $_SERVER["PHP_SELF"] . "?id=" . $id; ?>">
-
+    <form class="mt-5" method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
     <label for="nomepaciente">Nome do Paciente:</label>
     <input type="text" id="nomepaciente" name="nomepaciente" required><br><br>
     <label for="cpfpaciente">CPF do Paciente:</label>
-    <input type="text" id="cpfpaciente" name="cfpaciente" required><br><br>
+    <input type="text" id="cpfpaciente" name="cpfpaciente" required><br><br>
     <label for="rgpaciente">RG do Paciente:</label>
     <input type="text" id="rgpaciente" name="rgpaciente" required><br><br>
     <label for="enderecopaciente">Endereço do Paciente:</label>
@@ -94,9 +93,11 @@ if ($qry) {
     <input type="text" id="doencapreexis" name="doencapreexis" required><br><br>
     <label for="detalhesdoenca">Detalhes da Doença:</label>
     <input type="text" id="detalhesdoenca" name="detalhesdoenca" required><br><br>
-    <input type="submit" value="Inserir Paciente">
 
-</form>
+        <button type="submit" class="btn btn-primary">Inserir Paciente</button>
+    </form>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
