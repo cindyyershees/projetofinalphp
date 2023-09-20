@@ -1,22 +1,23 @@
 <?php
-
 $servidor = 'localhost';
 $usuario = 'root';
 $senha = '';
 $bd =  'sisgeresaude';
 
-$con = mysqli_connect($servidor,$usuario,$senha,$bd);
-
-//var_dump(mysqli_connect($servidor,$usuario,$senha,$bd))
+$con = mysqli_connect($servidor, $usuario, $senha, $bd);
 
 if (!$con){
     echo "<h1>Erro na conexão</h1>";
+    die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT * FROM funcionarios " ; {
-    if "medicos" WHERE 
-}
+$sql = "SELECT * FROM funcionarios WHERE cargo = 'medicos'";
 
+$result = mysqli_query($con, $sql);
+
+if (!$result) {
+    echo "Erro na consulta: " . mysqli_error($con);
+}
 
 ?>
 
@@ -40,22 +41,20 @@ $sql = "SELECT * FROM funcionarios " ; {
     <main>
         <section>
             <h2>Visão Geral</h2>
-            <!-- Conteúdo da visão geral -->
+           
         </section>
         <section>
             <h2>Atividades Recentes</h2>
             <ul>
-               
+                <?php
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<li>" . $row['nome'] . " " . $row['cargo'] . "</li>";
+                }
+                ?>
             </ul>
         </section>
     </main>
     <footer>
-
-
-
-       
-    <p>&copy; 2023 Seu Dashboard. Todos os direitos reservados.</p>
-    
     </footer>
 </body>
 </html>
